@@ -1,4 +1,4 @@
-#Wed Jan 06 13:50:11 CST 2016
+#Wed Jan 06 17:24:12 CST 2016
 eclipse.preferences.version=1
-validator.Checked=WebRoot/WEB-INF/jsp/user/list.jsp,WebRoot/WEB-INF/jsp/role/list.jsp
+validator.Checked=WebRoot/WEB-INF/jsp/department,WebRoot/WEB-INF/jsp/user/list.jsp,WebRoot/WEB-INF/jsp/role/list.jsp
 validator.Unchecked=
