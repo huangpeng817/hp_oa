@@ -29,7 +29,14 @@
 <!--显示表单内容-->
 <div id="MainArea">
     <form action="${pageContext.request.contextPath }/RoleServlet" method="post">
-    	<input type="hidden" name="method" value="edit">
+    	<c:choose>
+    		<c:when test="${empty role.id }">
+		    	<input type="hidden" name="method" value="add">
+    		</c:when>
+    		<c:otherwise>
+		    	<input type="hidden" name="method" value="edit">
+    		</c:otherwise>
+    	</c:choose>
     	<input type="hidden" name="id" value="${role.id }">
         <div class="ItemBlock_Title1"><!-- 信息说明<DIV CLASS="ItemBlock_Title1">
         	<IMG BORDER="0" WIDTH="4" HEIGHT="7" SRC="${pageContext.request.contextPath }/style/blue/images/item_point.gif" /> 岗位信息 </DIV>  -->

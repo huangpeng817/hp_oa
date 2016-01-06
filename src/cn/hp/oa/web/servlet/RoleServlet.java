@@ -32,7 +32,7 @@ public class RoleServlet extends BaseServlet {
 	
 	public String addUI(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		return "/WEB-INF/jsp/role/addUI.jsp";
+		return "/WEB-INF/jsp/role/saveUI.jsp";
 	}
 	
 	public String add(HttpServletRequest req, HttpServletResponse resp)
@@ -47,7 +47,7 @@ public class RoleServlet extends BaseServlet {
 		String id = req.getParameter("id");
 		Role role = roleService.getById(Long.parseLong(id));
 		req.setAttribute("role", role);
-		return "/WEB-INF/jsp/role/editUI.jsp";
+		return "/WEB-INF/jsp/role/saveUI.jsp";
 	}
 	
 	public String edit(HttpServletRequest req, HttpServletResponse resp)

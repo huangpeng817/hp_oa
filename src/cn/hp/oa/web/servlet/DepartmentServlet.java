@@ -32,7 +32,7 @@ public class DepartmentServlet extends BaseServlet {
 	
 	public String addUI(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		return "/WEB-INF/jsp/department/addUI.jsp";
+		return "/WEB-INF/jsp/department/saveUI.jsp";
 	}
 	
 	public String add(HttpServletRequest req, HttpServletResponse resp)
@@ -47,7 +47,7 @@ public class DepartmentServlet extends BaseServlet {
 		String id = req.getParameter("id");
 		Department department = departmentService.getById(Long.parseLong(id));
 		req.setAttribute("department", department);
-		return "/WEB-INF/jsp/department/editUI.jsp";
+		return "/WEB-INF/jsp/department/saveUI.jsp";
 	}
 	
 	public String edit(HttpServletRequest req, HttpServletResponse resp)
