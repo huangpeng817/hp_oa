@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="hp_oa"
+  id="myeclipse.1452045985752"
+  context-root="/hp_oa"
+  j2ee-spec="6.0"
+  archive="hp_oa.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
