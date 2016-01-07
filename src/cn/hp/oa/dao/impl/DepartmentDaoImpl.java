@@ -69,4 +69,26 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department> implements Depart
 		}
 		return department;
 	}
+
+	/**
+	 * 获取顶级部门列表(parentId为null)
+	 */
+	@Override
+	public List<Department> findTopList() throws SQLException {
+		String sql = "select * from itcast_department where parentId is null";
+		List<Map<String, Object>> mapList = qr.query(sql, new MapListHandler());
+		List<Department> topList = toDepartmentList(mapList);
+		return topList;
+	}
+
+	/**
+	 * 获取当前部门的子部门列表
+	 */
+	@Override
+	public List<Department> findChildren(Long parentId) throws SQLException {
+		String sql = "select * from itcast_department where parentId=?";
+		List<Map<String, Object>> mapList = qr.query(sql, new MapListHandler(), parentId);
+		List<Department> children = toDepartmentList(mapList);
+		return children;
+	}
 }

@@ -58,4 +58,20 @@ public class DepartmentService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public List<Department> findTopList() {
+		try {
+			return departmentDao.findTopList();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<Department> findChildren(Long parentId) {
+		try {
+			return departmentDao.findChildren(parentId);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

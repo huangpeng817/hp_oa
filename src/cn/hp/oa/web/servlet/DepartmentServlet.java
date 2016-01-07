@@ -18,7 +18,14 @@ public class DepartmentServlet extends BaseServlet {
 	
 	public String list(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		List<Department> departmentList = departmentService.findAll();
+//		List<Department> departmentList = departmentService.findAll();
+		List<Department> departmentList = null;
+		String parentId = req.getParameter("parentId");
+		if (parentId == null) { // 顶级部门列表(默认加载顶级部门列表)
+			departmentList = departmentService.findTopList();
+		} else { // 子部门列表
+			departmentList = departmentService.findChildren(Long.parseLong(parentId)); // 当前部门的子部门
+		}
 		req.setAttribute("departmentList", departmentList);
 		return "/WEB-INF/jsp/department/list.jsp";
 	}
