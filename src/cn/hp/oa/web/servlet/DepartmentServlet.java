@@ -32,12 +32,17 @@ public class DepartmentServlet extends BaseServlet {
 	
 	public String addUI(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		List<Department> departmentList = departmentService.findAll();
+		req.setAttribute("departmentList", departmentList);
 		return "/WEB-INF/jsp/department/saveUI.jsp";
 	}
 	
 	public String add(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		Department department = CommonUtils.toBean(req.getParameterMap(), Department.class);
+		String parentId = req.getParameter("parentId");
+		Department parent = departmentService.getById(Long.parseLong(parentId));
+		department.setParent(parent);
 		departmentService.save(department);
 		return list(req, resp);
 	}
@@ -45,8 +50,10 @@ public class DepartmentServlet extends BaseServlet {
 	public String editUI(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String id = req.getParameter("id");
-		Department department = departmentService.getById(Long.parseLong(id));
-		req.setAttribute("department", department);
+		List<Department> departmentList = departmentService.findAll();
+		req.setAttribute("departmentList", departmentList);
+		Department editDept = departmentService.getById(Long.parseLong(id));
+		req.setAttribute("editDept", editDept);
 		return "/WEB-INF/jsp/department/saveUI.jsp";
 	}
 	

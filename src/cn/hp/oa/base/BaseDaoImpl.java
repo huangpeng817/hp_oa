@@ -16,7 +16,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 public class BaseDaoImpl<T> implements BaseDao<T> {
 
-	private QueryRunner qr = new TxQueryRunner();
+	protected QueryRunner qr = new TxQueryRunner();
 	
 	private Class<T> clazz;
 	Field[] fields;

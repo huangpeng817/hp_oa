@@ -39,13 +39,17 @@
                 <table class="mainForm" cellpadding="0" cellspacing="0">
                     <tbody><tr><td width="100">上级部门</td>
                         <td><select name="parentId" class="SelectStyle">
-                                <option value="0" selected="selected">请选择部门</option>
-                                <option value="7">┠总经理室</option>
-                                <option value="1">┠市场部</option>
-                                <option value="2">　┠咨询部</option>
-                                <option value="3">　┠招生部</option>
-                                <option value="4">┠教学部</option>
-                                <option value="5">┠后勤部</option>
+                                <option value="0">请选择部门</option>
+                                <c:forEach items="${departmentList }" var="department">
+	                                <c:choose>
+	                                	<c:when test="${editDept.parent.id eq department.id }">
+			                                <option value="${department.id }" selected="selected">┠${department.name }</option>
+	                                	</c:when>
+	                                	<c:otherwise>
+			                                <option value="${department.id }">┠${department.name }</option>
+	                                	</c:otherwise>
+	                                </c:choose>
+                                </c:forEach>
                             </select>
                         </td>
                     </tr>

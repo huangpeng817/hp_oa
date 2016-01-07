@@ -43,7 +43,7 @@
 			<c:forEach items="${departmentList }" var="department">
         	<tr class="TableDetail1 demodata_record">
 				<td><a href="_list_level2.html">${department.name }</a>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td>${department.parent.name }</td>
 				<td>${department.description }</td>
 				<td><a onclick="return window.confirm('这将删除所有的下级部门，您确定要删除吗？')" href="<c:url value='/DepartmentServlet?method=delete&id=${department.id }'/>">删除</a>
 					<a href="<c:url value='/DepartmentServlet?method=editUI&id=${department.id }'/>">修改</a>

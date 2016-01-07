@@ -1,10 +1,17 @@
 package cn.hp.oa.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Department {
 
 	private Long id;
 	private String name;
 	private String description;
+	
+	/* 关联关系 */
+	private Department parent;
+	private Set<Department> children = new HashSet<Department>();
 
 	public Long getId() {
 		return id;
@@ -34,6 +41,22 @@ public class Department {
 	public String toString() {
 		return "Department [id=" + id + ", name=" + name + ", description="
 				+ description + "]";
+	}
+
+	public Department getParent() {
+		return parent;
+	}
+
+	public void setParent(Department parent) {
+		this.parent = parent;
+	}
+
+	public Set<Department> getChildren() {
+		return children;
+	}
+
+	public void setChildren(Set<Department> children) {
+		this.children = children;
 	}
 
 }
