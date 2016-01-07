@@ -4,11 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cn.hp.oa.dao.DepartmentDao;
+import cn.hp.oa.dao.impl.DepartmentDaoImpl;
 import cn.hp.oa.domain.Department;
 
 public class DepartmentService {
 
-	private DepartmentDao departmentDao = new DepartmentDao();
+	private DepartmentDao departmentDao = new DepartmentDaoImpl();
 	
 	public List<Department> findAll() {
 		try {

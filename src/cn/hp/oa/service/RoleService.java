@@ -4,11 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cn.hp.oa.dao.RoleDao;
+import cn.hp.oa.dao.impl.RoleDaoImpl;
 import cn.hp.oa.domain.Role;
 
 public class RoleService {
 
-	private RoleDao roleDao = new RoleDao();
+	private RoleDao roleDao = new RoleDaoImpl();
 	
 	public List<Role> findAll() {
 		try {
