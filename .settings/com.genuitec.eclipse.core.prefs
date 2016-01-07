@@ -1,4 +1,4 @@
-#Wed Jan 06 17:24:12 CST 2016
+#Thu Jan 07 20:36:23 CST 2016
 eclipse.preferences.version=1
-validator.Checked=WebRoot/WEB-INF/jsp/department,WebRoot/WEB-INF/jsp/user/list.jsp,WebRoot/WEB-INF/jsp/role/list.jsp
+validator.Checked=WebRoot/WEB-INF/jsp/department,WebRoot/WEB-INF/jsp/user/list.jsp,test/cn/hp/oa/dao/RoleDaoTest.java,WebRoot/WEB-INF/jsp/role/list.jsp
 validator.Unchecked=

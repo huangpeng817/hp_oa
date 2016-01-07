@@ -5,11 +5,12 @@ import java.util.List;
 
 import org.junit.Test;
 
+import cn.hp.oa.dao.impl.RoleDaoImpl;
 import cn.hp.oa.domain.Role;
 
 public class RoleDaoTest {
 
-	private RoleDao dao = new RoleDao();
+	private RoleDao dao = new RoleDaoImpl();
 	
 	@Test
 	public void testFindAll() throws Exception {
