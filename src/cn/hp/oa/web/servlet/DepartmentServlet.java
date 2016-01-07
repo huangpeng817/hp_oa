@@ -21,9 +21,11 @@ public class DepartmentServlet extends BaseServlet {
 //		List<Department> departmentList = departmentService.findAll();
 		List<Department> departmentList = null;
 		String parentId = req.getParameter("parentId");
-		if (parentId == null) { // 顶级部门列表(默认加载顶级部门列表)
+		if (parentId == null || parentId.trim().isEmpty()) { // 顶级部门列表(默认加载顶级部门列表)
 			departmentList = departmentService.findTopList();
 		} else { // 子部门列表
+			Department parent = departmentService.getById(Long.parseLong(parentId)); // 找到父部门
+			req.setAttribute("parent", parent);
 			departmentList = departmentService.findChildren(Long.parseLong(parentId)); // 当前部门的子部门
 		}
 		req.setAttribute("departmentList", departmentList);

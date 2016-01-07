@@ -54,10 +54,10 @@
                         </td>
                     </tr>
                     <tr><td>部门名称</td>
-                        <td><input name="name" value="${department.name }" class="InputStyle" type="text"> *</td>
+                        <td><input name="name" value="${editDept.name }" class="InputStyle" type="text"> *</td>
                     </tr>
                     <tr><td>职能说明</td>
-                        <td><textarea name="description" class="TextareaStyle">${department.description }</textarea></td>
+                        <td><textarea name="description" class="TextareaStyle">${editDept.description }</textarea></td>
                     </tr>
                 </tbody></table>
             </div>
