@@ -5,13 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
     <title>用户列表</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script language="javascript" src="${pageContext.request.contextPath }/script/jquery.js"></script>
-    <script language="javascript" src="${pageContext.request.contextPath }/script/pageCommon.js" charset="utf-8"></script>
-    <script language="javascript" src="${pageContext.request.contextPath }/script/PageUtils.js" charset="utf-8"></script>
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath }/style/blue/pageCommon.css">
-    <script type="text/javascript">
-    </script>
+    <%@include file="/WEB-INF/jsp/public/commons.jspf" %>
 </head>
 <body>
 
@@ -42,38 +36,20 @@
         
         <!--显示数据列表-->
         <tbody id="TableData" class="dataContainer" datakey="userList">
-            
-        <tr class="TableDetail1 demodata_record">
-                <td>zs&nbsp;</td>
-                <td>张三&nbsp;</td>
-                <td>研发部&nbsp;</td>
-                <td>程序员&nbsp;</td>
+            <c:forEach items="${userList }" var="user">
+        	<tr class="TableDetail1 demodata_record">
+                <td>${user.loginName }</td>
+                <td>${user.name }</td>
+                <td>${user.department.name }</td>
                 <td>&nbsp;</td>
+                <td>${user.description }</td>
                 <td><a onclick="return delConfirm()" href="list.html">删除</a>
                     <a href="saveUI.html">修改</a>
 					<a href="#" onclick="return window.confirm('您确定要初始化密码为1234吗？')">初始化密码</a>
                 </td>
-            </tr><tr class="TableDetail1 demodata_record">
-                <td>ls&nbsp;</td>
-                <td>李四&nbsp;</td>
-                <td>研发部&nbsp;</td>
-                <td>程序员&nbsp;</td>
-                <td>&nbsp;</td>
-                <td><a onclick="return delConfirm()" href="list.html">删除</a>
-                    <a href="saveUI.html">修改</a>
-					<a href="#" onclick="return window.confirm('您确定要初始化密码为1234吗？')">初始化密码</a>
-                </td>
-            </tr><tr class="TableDetail1 demodata_record">
-                <td>ww&nbsp;</td>
-                <td>王五&nbsp;</td>
-                <td>测试部&nbsp;</td>
-                <td>测试员&nbsp;</td>
-                <td>&nbsp;</td>
-                <td><a onclick="return delConfirm()" href="list.html">删除</a>
-                    <a href="saveUI.html">修改</a>
-					<a href="#" onclick="return window.confirm('您确定要初始化密码为1234吗？')">初始化密码</a>
-                </td>
-            </tr></tbody>
+            </tr>
+            </c:forEach>
+        </tbody>
     </table>
     
     <!-- 其他功能超链接 -->

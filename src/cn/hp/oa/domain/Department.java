@@ -12,6 +12,8 @@ public class Department {
 	/* 关联关系 */
 	private Department parent;
 	private Set<Department> children = new HashSet<Department>();
+	
+	private Set<User> users = new HashSet<User>();
 
 	public Long getId() {
 		return id;
@@ -57,6 +59,14 @@ public class Department {
 
 	public void setChildren(Set<Department> children) {
 		this.children = children;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 }
