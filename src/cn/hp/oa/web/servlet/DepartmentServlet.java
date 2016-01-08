@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.hp.oa.domain.Department;
 import cn.hp.oa.service.DepartmentService;
+import cn.hp.oa.util.DepartmentUtils;
 import cn.itcast.commons.CommonUtils;
 import cn.itcast.servlet.BaseServlet;
 
@@ -21,7 +22,8 @@ public class DepartmentServlet extends BaseServlet {
 //		List<Department> departmentList = departmentService.findAll();
 		List<Department> departmentList = null;
 		String parentId = req.getParameter("parentId");
-		if (parentId == null || parentId.trim().isEmpty()) { // 顶级部门列表(默认加载顶级部门列表)
+		// 如果parentId为0,即：添加部门是没有选择指定的部门，默认为parentId=0的"请选择部门"，同样返回顶级部门
+		if (parentId == null || parentId.trim().isEmpty() || parentId.equals("0")) { // 顶级部门列表(默认加载顶级部门列表)
 			departmentList = departmentService.findTopList();
 		} else { // 子部门列表
 			Department parent = departmentService.getById(Long.parseLong(parentId)); // 找到父部门
@@ -41,8 +43,12 @@ public class DepartmentServlet extends BaseServlet {
 	
 	public String addUI(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		List<Department> departmentList = departmentService.findAll();
+		List<Department> topList = departmentService.findTopList();
+		List<Department> departmentList = DepartmentUtils.getAllDepartments(topList);
 		req.setAttribute("departmentList", departmentList);
+//		String pId = req.getParameter("pId");
+//		Department editDept = departmentService.getById(Long.parseLong(pId));
+//		req.setAttribute("editDept", editDept); // 和修改页面统一名称，方面新建回显上级部门，默认为当前层级的上级部门
 		return "/WEB-INF/jsp/department/saveUI.jsp";
 	}
 	
@@ -59,7 +65,8 @@ public class DepartmentServlet extends BaseServlet {
 	public String editUI(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String id = req.getParameter("id");
-		List<Department> departmentList = departmentService.findAll();
+		List<Department> topList = departmentService.findTopList();
+		List<Department> departmentList = DepartmentUtils.getAllDepartments(topList);
 		req.setAttribute("departmentList", departmentList);
 		Department editDept = departmentService.getById(Long.parseLong(id));
 		req.setAttribute("editDept", editDept);

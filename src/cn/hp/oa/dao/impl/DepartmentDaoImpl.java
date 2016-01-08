@@ -1,10 +1,12 @@
 package cn.hp.oa.dao.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
@@ -29,11 +31,15 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department> implements Depart
 	
 	@Override
 	public void save(Department entity) throws SQLException {
+		Long parentId = null;
+		if (entity.getParent() != null) {
+			parentId = entity.getParent().getId();
+		}
 		String sql = "insert into itcast_department(name,description,parentId) values(?,?,?)";
 		Object[] params = {
 				entity.getName(),
 				entity.getDescription(),
-				entity.getParent().getId()
+				parentId
 		};
 		qr.update(sql, params);
 	}
@@ -56,7 +62,16 @@ public class DepartmentDaoImpl extends BaseDaoImpl<Department> implements Depart
 	}
 
 	private Department toDepartment(Map<String, Object> map) {
-		Department department = CommonUtils.toBean(map, Department.class);
+		// 方式一：封装BeanUtils的populate函数
+//		Department department = CommonUtils.toBean(map, Department.class);
+		
+		// 方式二： 使用原生的populate函数，通过引用传递，department自动封装，并且函数外部使用是封装过后的department对象
+		Department department = new Department();
+		try {
+			BeanUtils.populate(department, map);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 		Long parentId = (Long) map.get("parentId");
 		if (parentId != null) {
 			try {
