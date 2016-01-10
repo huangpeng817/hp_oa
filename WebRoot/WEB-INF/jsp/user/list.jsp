@@ -54,7 +54,7 @@
                 	</c:forEach>
                 </td>
                 <td>${user.description }</td>
-                <td><a onclick="return delConfirm()" href="list.html">删除</a>
+                <td><a onclick="return delConfirm()" href="<c:url value='/UserServlet?method=delete&id=${user.id }'/>">删除</a>
                     <a href="saveUI.html">修改</a>
 					<a href="#" onclick="return window.confirm('您确定要初始化密码为1234吗？')">初始化密码</a>
                 </td>
@@ -66,7 +66,7 @@
     <!-- 其他功能超链接 -->
     <div id="TableTail">
         <div id="TableTail_inside">
-            <a href="saveUI.html"><img src="${pageContext.request.contextPath }/style/images/createNew.png"></a>
+            <a href="<c:url value='/UserServlet?method=addUI'/>"><img src="${pageContext.request.contextPath }/style/images/createNew.png"></a>
         </div>
     </div>
 </div>

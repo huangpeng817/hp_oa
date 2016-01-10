@@ -14,7 +14,7 @@
     <div id="Title_bar_Head">
         <div id="Title_Head"></div>
         <div id="Title"><!--页面标题-->
-            <img src="../style/images/title_arrow.gif" border="0" height="13" width="13"> 用户信息
+            <img src="${pageContext.request.contextPath }/style/images/title_arrow.gif" border="0" height="13" width="13"> 用户信息
         </div>
         <div id="Title_End"></div>
     </div>
@@ -22,9 +22,11 @@
 
 <!--显示表单内容-->
 <div id="MainArea">
-    <form action="list.html">
+    <form action="<c:url value='/UserServlet?'/>" method="post">
+    	<input type="hidden" name="method" value="${user.id eq null ? 'add' : 'edit' }">
+    	<input type="hidden" name="id" value="${uesr.id }">
         <div class="ItemBlock_Title1"><!-- 信息说明 --><div class="ItemBlock_Title1">
-        	<img src="../style/blue/images/item_point.gif" border="0" height="7" width="4"> 用户信息 </div> 
+        	<img src="${pageContext.request.contextPath }/style/blue/images/item_point.gif" border="0" height="7" width="4"> 用户信息 </div> 
         </div>
         
         <!-- 表单内容显示 -->
@@ -34,12 +36,9 @@
                     <tbody><tr><td width="100">所属部门</td>
                         <td><select name="departmentId" class="SelectStyle">
                                 <option value="0" selected="selected">请选择部门</option>
-                                <option value="7">┠总经理室</option>
-                                <option value="1">┠市场部</option>
-                                <option value="2">　┠咨询部</option>
-                                <option value="3">　┠招生部</option>
-                                <option value="4">┠教学部</option>
-                                <option value="5">┠后勤部</option>
+                                <c:forEach items="${departmentList }" var="department">
+	                                <option value="${department.id }">${department.name }</option>
+                                </c:forEach>
                             </select> 
                         </td>
                     </tr>
@@ -70,7 +69,7 @@
         </div>
         
 		<div class="ItemBlock_Title1"><!-- 信息说明 --><div class="ItemBlock_Title1">
-        	<img src="../style/blue/images/item_point.gif" border="0" height="7" width="4"> 岗位设置 </div> 
+        	<img src="${pageContext.request.contextPath }/style/blue/images/item_point.gif" border="0" height="7" width="4"> 岗位设置 </div> 
         </div>
         
         <!-- 表单内容显示 -->
@@ -80,11 +79,9 @@
                     <tbody><tr>
 						<td width="100">岗位</td>
                         <td><select name="roleIdList" multiple="true" size="10" class="SelectStyle">
-                                <option value="1">程序员</option>
-                                <option value="2">行政秘书</option>
-                                <option value="3">出纳</option>
-                                <option value="4">总经理</option>
-                                <option value="5">测试员</option>
+                                <c:forEach items="${roleList }" var="role">
+	                                <option value="${role.id }">${role.name }</option>
+                                </c:forEach>
                             </select>
                             按住Ctrl键可以多选或取消选择
                         </td>
@@ -95,8 +92,8 @@
 		
         <!-- 表单操作 -->
         <div id="InputDetailBar">
-            <input src="../style/images/save.png" type="image">
-            <a href="javascript:history.go(-1);"><img src="../style/images/goBack.png"></a>
+            <input src="${pageContext.request.contextPath }/style/images/save.png" type="image">
+            <a href="javascript:history.go(-1);"><img src="${pageContext.request.contextPath }/style/images/goBack.png"></a>
         </div>
     </form>
 </div>

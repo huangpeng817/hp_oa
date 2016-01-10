@@ -20,6 +20,42 @@ import cn.hp.oa.domain.User;
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 	
 	@Override
+	public void save(User entity) throws SQLException {
+		String sql = "insert into itcast_user(name,loginName,password,gender,phoneNumber,email,description,departmentId) values(?,?,?,?,?,?,?,?)";
+		Long departmentId = null;
+		if (entity.getDepartment() != null) {
+			departmentId = entity.getDepartment().getId();
+		}
+		Object[] params = {
+			entity.getName(),
+			entity.getLoginName(),
+			entity.getPassword(),
+			entity.getGender(),
+			entity.getPhoneNumber(),
+			entity.getEmail(),
+			entity.getDescription(),
+			departmentId
+		};
+		qr.update(sql, params);
+		
+//		Set<Role> roles = entity.getRoles();
+//		if (roles != null) {
+//			Long[] roleIds = new Long[roles.size()];
+//			int i = 0;
+//			for (Role role : roles) {
+//				Long roleId = role.getId();
+//				roleIds[i] = roleId;
+//				i++;
+//			}
+//			for (int j = 0; j < roleIds.length; j++) {
+//				sql = "insert into itcast_user_role values(?,?)";
+//				qr.update(sql, entity.getId(), roleIds[j]);
+//			}
+//		}
+		
+	}
+	
+	@Override
 	public List<User> findAll() throws SQLException {
 		String sql = "select * from itcast_user";
 		List<Map<String, Object>> mapList = qr.query(sql, new MapListHandler());
@@ -68,7 +104,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 					Long[] ids = new Long[roleIds.size()];
 					roleIds.toArray(ids);
 					List<Role> roleList = new RoleDaoImpl().getByIds(ids);
-					System.out.println(roleList);
+//					System.out.println(roleList);
 					Set<Role> roleSet = new HashSet<Role>(roleList);
 					user.setRoles(roleSet);
 				}
