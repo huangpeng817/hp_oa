@@ -2,15 +2,19 @@ package cn.hp.oa.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
 import cn.hp.oa.base.BaseDaoImpl;
 import cn.hp.oa.dao.UserDao;
 import cn.hp.oa.domain.Department;
+import cn.hp.oa.domain.Role;
 import cn.hp.oa.domain.User;
 
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
@@ -47,6 +51,32 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 				throw new RuntimeException(e);
 			}
 		}
+		
+		/**
+		 * 处理用户的岗位
+		 */
+		if (user != null && user.getId() != null) {
+			Long id = user.getId();
+			String sql = "select roleId from itcast_user_role where userId=?";
+			try {
+				List<Object[]> list = qr.query(sql, new ArrayListHandler(), id);
+				if (list != null && list.size() != 0) {
+					Set<Long> roleIds = new HashSet<Long>();
+					for (Object[] obj : list) {
+						roleIds.add((Long) obj[0]);
+					}
+					Long[] ids = new Long[roleIds.size()];
+					roleIds.toArray(ids);
+					List<Role> roleList = new RoleDaoImpl().getByIds(ids);
+					System.out.println(roleList);
+					Set<Role> roleSet = new HashSet<Role>(roleList);
+					user.setRoles(roleSet);
+				}
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
 		return user;
 	}
 }

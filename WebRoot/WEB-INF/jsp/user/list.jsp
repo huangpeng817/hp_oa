@@ -41,7 +41,18 @@
                 <td>${user.loginName }</td>
                 <td>${user.name }</td>
                 <td>${user.department.name }</td>
-                <td>&nbsp;</td>
+                <td>
+                	<c:forEach items="${user.roles }" var="role" varStatus="status">
+                		<c:choose>
+                			<c:when test="${status.last }">
+                				${role.name }
+                			</c:when>
+                			<c:otherwise>
+                				${role.name },
+                			</c:otherwise>
+                		</c:choose>
+                	</c:forEach>
+                </td>
                 <td>${user.description }</td>
                 <td><a onclick="return delConfirm()" href="list.html">删除</a>
                     <a href="saveUI.html">修改</a>
