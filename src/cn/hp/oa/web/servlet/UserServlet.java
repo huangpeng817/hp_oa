@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import cn.hp.oa.domain.Department;
 import cn.hp.oa.domain.Role;
 import cn.hp.oa.domain.User;
@@ -51,7 +53,7 @@ public class UserServlet extends BaseServlet {
 	public String add(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		User user = CommonUtils.toBean(req.getParameterMap(), User.class);
-		user.setPassword("1234"); // 初始密码为1234
+		user.setPassword(DigestUtils.md5Hex("1234")); // 初始密码为1234，采用MD5方式加密存储
 		String departmentId = req.getParameter("departmentId");
 		Department department = departmentService.getById(Long.parseLong(departmentId));
 		user.setDepartment(department);

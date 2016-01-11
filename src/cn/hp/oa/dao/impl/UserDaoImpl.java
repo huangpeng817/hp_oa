@@ -10,6 +10,7 @@ import java.util.Set;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import cn.hp.oa.base.BaseDaoImpl;
 import cn.hp.oa.dao.UserDao;
@@ -38,20 +39,25 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		};
 		qr.update(sql, params);
 		
-//		Set<Role> roles = entity.getRoles();
-//		if (roles != null) {
-//			Long[] roleIds = new Long[roles.size()];
-//			int i = 0;
-//			for (Role role : roles) {
-//				Long roleId = role.getId();
-//				roleIds[i] = roleId;
-//				i++;
-//			}
-//			for (int j = 0; j < roleIds.length; j++) {
-//				sql = "insert into itcast_user_role values(?,?)";
-//				qr.update(sql, entity.getId(), roleIds[j]);
-//			}
-//		}
+		/* 新增用户后，维护和岗位的管理关系，即：向itcast_user_role插入记录 */
+		sql = "SELECT MAX(id) FROM itcast_user";
+		Number idNum = (Number) qr.query(sql, new ScalarHandler());
+		Long userId = idNum.longValue();
+		
+		Set<Role> roles = entity.getRoles();
+		if (roles != null) {
+			Long[] roleIds = new Long[roles.size()];
+			int i = 0;
+			for (Role role : roles) {
+				Long roleId = role.getId();
+				roleIds[i] = roleId;
+				i++;
+			}
+			for (int j = 0; j < roleIds.length; j++) {
+				sql = "insert into itcast_user_role values(?,?)";
+				qr.update(sql, userId, roleIds[j]);
+			}
+		}
 		
 	}
 	

@@ -51,8 +51,8 @@
                         <td><input name="name" class="InputStyle" type="text"> *</td>
                     </tr>
 					<tr><td>性别</td>
-                        <td><input name="sex" value="男" id="male" type="RADIO"><label for="male">男</label>
-							<input name="sex" value="女" id="female" type="RADIO"><label for="female">女</label>
+                        <td><input name="gender" value="男" id="male" type="RADIO"><label for="male">男</label>
+							<input name="gender" value="女" id="female" type="RADIO"><label for="female">女</label>
 						</td>
                     </tr>
 					<tr><td>联系电话</td>
