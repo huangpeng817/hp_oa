@@ -1,3 +1,4 @@
+<%@page import="cn.hp.oa.domain.Role"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -24,7 +25,7 @@
 <div id="MainArea">
     <form action="<c:url value='/UserServlet?'/>" method="post">
     	<input type="hidden" name="method" value="${user.id eq null ? 'add' : 'edit' }">
-    	<input type="hidden" name="id" value="${uesr.id }">
+    	<input type="hidden" name="id" value="${user.id }">
         <div class="ItemBlock_Title1"><!-- 信息说明 --><div class="ItemBlock_Title1">
         	<img src="${pageContext.request.contextPath }/style/blue/images/item_point.gif" border="0" height="7" width="4"> 用户信息 </div> 
         </div>
@@ -37,32 +38,32 @@
                         <td><select name="departmentId" class="SelectStyle">
                                 <option value="0" selected="selected">请选择部门</option>
                                 <c:forEach items="${departmentList }" var="department">
-	                                <option value="${department.id }">${department.name }</option>
+	                                <option value="${department.id }" <c:if test="${user.department.id eq department.id }">selected="selected"</c:if> >${department.name }</option>
                                 </c:forEach>
                             </select> 
                         </td>
                     </tr>
                     <tr><td>登录名</td>
-                        <td><input name="loginName" class="InputStyle" type="text"> *
+                        <td><input name="loginName" value="${user.loginName }" class="InputStyle" type="text"> *
 							（登录名要唯一）
 						</td>
                     </tr>
                     <tr><td>姓名</td>
-                        <td><input name="name" class="InputStyle" type="text"> *</td>
+                        <td><input name="name" value="${user.name }" class="InputStyle" type="text"> *</td>
                     </tr>
 					<tr><td>性别</td>
-                        <td><input name="gender" value="男" id="male" type="RADIO"><label for="male">男</label>
-							<input name="gender" value="女" id="female" type="RADIO"><label for="female">女</label>
+                        <td><input name="gender" value="男" id="male" type="RADIO" <c:if test="${user.gender eq '男' }">checked="checked"</c:if> ><label for="male">男</label>
+							<input name="gender" value="女" id="female" type="RADIO" <c:if test="${user.gender eq '女' }">checked="checked"</c:if> ><label for="female">女</label>
 						</td>
                     </tr>
 					<tr><td>联系电话</td>
-                        <td><input name="phoneNumber" class="InputStyle" type="text"></td>
+                        <td><input name="phoneNumber" value="${user.phoneNumber }" class="InputStyle" type="text"></td>
                     </tr>
                     <tr><td>E-mail</td>
-                        <td><input name="email" class="InputStyle" type="text"></td>
+                        <td><input name="email" value="${user.email }" class="InputStyle" type="text"></td>
                     </tr>
                     <tr><td>备注</td>
-                        <td><textarea name="description" class="TextareaStyle"></textarea></td>
+                        <td><textarea name="description" class="TextareaStyle">${user.description }</textarea></td>
                     </tr>
                 </tbody></table>
             </div>
@@ -79,9 +80,25 @@
                     <tbody><tr>
 						<td width="100">岗位</td>
                         <td><select name="roleIdList" multiple="true" size="10" class="SelectStyle">
-                                <c:forEach items="${roleList }" var="role">
-	                                <option value="${role.id }">${role.name }</option>
-                                </c:forEach>
+                                <%
+                                	List<Role> roleList = (List<Role>) request.getAttribute("roleList");
+                                	List<Role> roles = (List<Role>) request.getAttribute("roles");
+                                	List<String> roleNames = new ArrayList<String>();
+                                	for (Role role : roles) {
+                                		roleNames.add(role.getName());
+                                	}
+                                	for (int i = 0; i < roleList.size(); i++) {
+                                		if (roleNames.contains(roleList.get(i).getName())) {
+                                %>
+                                			<option value="<%=roleList.get(i).getId() %>" selected="selected"><%=roleList.get(i).getName() %></option>
+                                <%
+                                		} else {
+                                %>
+                                			<option value="<%=roleList.get(i).getId() %>"><%=roleList.get(i).getName() %></option>	
+                                <%
+                                		}
+                            		}
+                                %>
                             </select>
                             按住Ctrl键可以多选或取消选择
                         </td>

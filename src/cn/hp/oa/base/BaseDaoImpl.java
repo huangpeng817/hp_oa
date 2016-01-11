@@ -25,7 +25,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	public BaseDaoImpl() {
 		ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
 		clazz = (Class<T>) pt.getActualTypeArguments()[0];
-		System.out.println("继承BaseDaoImpl的子类具体类型为： " + clazz);
+//		System.out.println("继承BaseDaoImpl的子类具体类型为： " + clazz);
 		fields = clazz.getDeclaredFields();
 	}
 	

@@ -76,6 +76,9 @@ public class DepartmentServlet extends BaseServlet {
 	public String edit(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		Department department = CommonUtils.toBean(req.getParameterMap(), Department.class);
+		String parentId = req.getParameter("parentId");
+		Department parent = departmentService.getById(Long.parseLong(parentId));
+		department.setParent(parent);
 		departmentService.update(department);
 		return list(req, resp);
 	}

@@ -1,8 +1,10 @@
 package cn.hp.oa.web.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -72,14 +74,40 @@ public class UserServlet extends BaseServlet {
 	
 	public String editUI(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		List<Department> topList = departmentService.findTopList();
+		List<Department> departmentList = DepartmentUtils.getAllDepartments(topList);
+		req.setAttribute("departmentList", departmentList);
+		List<Role> roleList = roleService.findAll();
+		req.setAttribute("roleList", roleList);
+		String id = req.getParameter("id");
+		User user = userService.getById(Long.parseLong(id));
+		req.setAttribute("user", user);
+		Set<Role> roleSet = user.getRoles();
+		List<Role> roles = new ArrayList<Role>(roleSet);
+		req.setAttribute("roles", roles);
 		
-		return "";
+		return "/WEB-INF/jsp/user/saveUI.jsp";
 	}
 	
 	public String edit(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		User user = CommonUtils.toBean(req.getParameterMap(), User.class);
 		
-		return "";
+		String departmentId = req.getParameter("departmentId");
+		Department department = departmentService.getById(Long.parseLong(departmentId));
+		user.setDepartment(department);
+		String[] roleIds = req.getParameterValues("roleIdList");
+		if (roleIds != null) {
+			Long[] ids = new Long[roleIds.length];
+			for (int i = 0; i < roleIds.length; i++) {
+				ids[i] = Long.parseLong(roleIds[i]);
+			}
+			List<Role> roleList = roleService.getByIds(ids);
+			user.setRoles(new HashSet<Role>(roleList));
+		}
+		
+		userService.update(user);
+		return list(req, resp);
 	}
 
 }

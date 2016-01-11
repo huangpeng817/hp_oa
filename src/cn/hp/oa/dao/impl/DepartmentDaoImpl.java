@@ -1,21 +1,30 @@
 package cn.hp.oa.dao.impl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
 import cn.hp.oa.base.BaseDaoImpl;
 import cn.hp.oa.dao.DepartmentDao;
 import cn.hp.oa.domain.Department;
-import cn.itcast.commons.CommonUtils;
 
 public class DepartmentDaoImpl extends BaseDaoImpl<Department> implements DepartmentDao {
+	
+	@Override
+	public void update(Department entity) throws SQLException {
+		String sql ="update itcast_department set name=?,description=?,parentId=? where id=?";
+		Object[] params = {
+				entity.getName(),
+				entity.getDescription(),
+				entity.getParent().getId(),
+				entity.getId()
+		};
+		qr.update(sql, params);
+	}
 	
 	@Override
 	public Department getById(Long id) throws SQLException {

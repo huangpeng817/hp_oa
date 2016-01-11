@@ -21,6 +21,66 @@ import cn.hp.oa.domain.User;
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 	
 	@Override
+	public void update(User entity) throws SQLException {
+		String sql = "update itcast_user set name=?,loginName=?,gender=?,phoneNumber=?,email=?,description=?,departmentId=? where id=?";
+		Long departmentId = null;
+		if (entity.getDepartment() != null) {
+			departmentId = entity.getDepartment().getId();
+		}
+		Object[] params = {
+			entity.getName(),
+			entity.getLoginName(),
+			entity.getGender(),
+			entity.getPhoneNumber(),
+			entity.getEmail(),
+			entity.getDescription(),
+			departmentId,
+			entity.getId()
+		};
+		qr.update(sql, params);
+		
+		/**
+		 * 修改用户后，维护和岗位的关联关系，即：修改itcast_user_role记录 
+		 * 策略1： 删除所有和该用户有关的记录，删除插入新纪录
+		 * 
+		 * 策略2： 查询与此用户相关的记录
+		 * 	> 如果有该记录，修改之
+		 *  > 如果没有记录，插入新纪录
+		 */
+		
+		/* 使用策略1 */
+		sql = "delete from itcast_user_role where userId=?";
+		qr.update(sql, entity.getId());
+		
+		Set<Role> roles = entity.getRoles();
+		if (roles != null) {
+			Long[] roleIds = new Long[roles.size()];
+			int i = 0;
+			for (Role role : roles) {
+				Long roleId = role.getId();
+				roleIds[i] = roleId;
+				i++;
+			}
+			for (int j = 0; j < roleIds.length; j++) {
+				sql = "insert into itcast_user_role values(?,?)";
+				qr.update(sql, entity.getId(), roleIds[j]);
+			}
+		}
+		
+	}
+	
+	@Override
+	public User getById(Long id) throws SQLException {
+		String sql = "select * from itcast_user where id=?";
+		List<Map<String, Object>> mapList = qr.query(sql, new MapListHandler(), id);
+		if (mapList != null && mapList.size() !=0) {
+			Map<String, Object> map = mapList.get(0);
+			return toUser(map);
+		}
+		return null;
+	}
+	
+	@Override
 	public void save(User entity) throws SQLException {
 		String sql = "insert into itcast_user(name,loginName,password,gender,phoneNumber,email,description,departmentId) values(?,?,?,?,?,?,?,?)";
 		Long departmentId = null;
