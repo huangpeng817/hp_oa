@@ -27,17 +27,17 @@ public class DepartmentService {
 		}
 	}
 	
-	public void save(Department Department) {
+	public void save(Department department) {
 		try {
-			departmentDao.save(Department);
+			departmentDao.save(department);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	public void update(Department Department) {
+	public void update(Department department) {
 		try {
-			departmentDao.update(Department);
+			departmentDao.update(department);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
