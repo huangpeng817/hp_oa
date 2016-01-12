@@ -58,5 +58,13 @@ public class UserService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public User findByLoginNameAndPassword(String loginName, String password) {
+		try {
+			return userDao.findByLoginNameAndPassword(loginName, password);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 }

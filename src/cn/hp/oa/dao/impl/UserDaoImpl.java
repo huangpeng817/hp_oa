@@ -2,6 +2,7 @@ package cn.hp.oa.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
@@ -27,17 +29,21 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		if (entity.getDepartment() != null) {
 			departmentId = entity.getDepartment().getId();
 		}
-		Object[] params = {
-			entity.getName(),
-			entity.getLoginName(),
-			entity.getGender(),
-			entity.getPhoneNumber(),
-			entity.getEmail(),
-			entity.getDescription(),
-			departmentId,
-			entity.getId()
-		};
-		qr.update(sql, params);
+		List<Object> params = new ArrayList<Object>();
+		params.add(entity.getName());
+		params.add(entity.getLoginName());
+		if (entity.getPassword() != null && !entity.getPassword().trim().isEmpty()) {
+			sql = "update itcast_user set name=?,loginName=?,password=?,gender=?,phoneNumber=?,email=?,description=?,departmentId=? where id=?";
+			params.add(entity.getPassword());
+		}
+		params.add(entity.getGender());
+		params.add(entity.getPhoneNumber());
+		params.add(entity.getEmail());
+		params.add(entity.getDescription());
+		params.add(departmentId);
+		params.add(entity.getId());
+		
+		qr.update(sql, params.toArray());
 		
 		/**
 		 * 修改用户后，维护和岗位的关联关系，即：修改itcast_user_role记录 
@@ -180,5 +186,11 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		}
 		
 		return user;
+	}
+
+	@Override
+	public User findByLoginNameAndPassword(String loginName, String password) throws SQLException {
+		String sql = "select * from itcast_user where loginName=? and password=?";
+		return qr.query(sql, new BeanHandler<User>(User.class), loginName, password);
 	}
 }

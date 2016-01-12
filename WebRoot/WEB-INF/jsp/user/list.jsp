@@ -56,7 +56,7 @@
                 <td>${user.description }</td>
                 <td><a onclick="return delConfirm()" href="<c:url value='/UserServlet?method=delete&id=${user.id }'/>">删除</a>
                     <a href="<c:url value='/UserServlet?method=editUI&id=${user.id }'/>">修改</a>
-					<a href="#" onclick="return window.confirm('您确定要初始化密码为1234吗？')">初始化密码</a>
+					<a href="<c:url value='/UserServlet?method=initPassword&id=${user.id }'/>" onclick="return window.confirm('您确定要初始化密码为1234吗？')">初始化密码</a>
                 </td>
             </tr>
             </c:forEach>

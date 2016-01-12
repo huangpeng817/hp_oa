@@ -28,6 +28,32 @@ public class UserServlet extends BaseServlet {
 	private DepartmentService departmentService = new DepartmentService();
 	private RoleService roleService = new RoleService();
 	
+	public String login(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		String loginName = req.getParameter("loginName");
+		String password = DigestUtils.md5Hex(req.getParameter("password"));
+		User user = userService.findByLoginNameAndPassword(loginName, password);
+		if (user == null) {
+			req.setAttribute("msg", "用户名或密码错误！");
+			return "/WEB-INF/jsp/user/loginUI.jsp";
+		} else {
+			req.getSession().setAttribute("user", user);
+			return "r:/index.jsp";
+		}
+		
+	}
+	
+	public String loginUI(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		return "/WEB-INF/jsp/user/loginUI.jsp";
+	}
+	
+	public String logout(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		req.getSession().invalidate();
+		return "/WEB-INF/jsp/user/logout.jsp"; // 由于WEB-INF目录下的资源不能直接方法，所以不能使用重定向(地址栏直接定位到此目录下)
+	}
+	
 	public String list(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		List<User> userList = userService.findAll();
@@ -106,6 +132,17 @@ public class UserServlet extends BaseServlet {
 			user.setRoles(new HashSet<Role>(roleList));
 		}
 		
+		userService.update(user);
+		return list(req, resp);
+	}
+	
+	public String initPassword(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		String id = req.getParameter("id");
+		System.out.println(id);
+		User user = userService.getById(Long.parseLong(id));
+		user.setPassword(DigestUtils.md5Hex("1234"));
+		System.out.println(user);  
 		userService.update(user);
 		return list(req, resp);
 	}
