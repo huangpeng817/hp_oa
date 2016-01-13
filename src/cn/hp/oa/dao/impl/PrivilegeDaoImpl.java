@@ -2,9 +2,12 @@ package cn.hp.oa.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
@@ -43,6 +46,15 @@ public class PrivilegeDaoImpl extends BaseDaoImpl<Privilege> implements Privileg
 				throw new RuntimeException(e);
 			}
 		}
+		List<Privilege> childrenList;
+		try {
+			if (privilege != null) {
+				childrenList = findChildren(privilege.getId());
+				Set<Privilege> children = new HashSet<Privilege>(childrenList);
+				privilege.setChildren(children);
+			}
+		} catch (SQLException e) {
+		}
 		
 		return privilege;
 	}
@@ -53,5 +65,18 @@ public class PrivilegeDaoImpl extends BaseDaoImpl<Privilege> implements Privileg
 		Map<String, Object> map = qr.query(sql, new MapHandler(), id);
 		return toPrivilege(map);
 	}
+
+	@Override
+	public List<Privilege> findTopList() throws SQLException {
+		String sql = "select * from itcast_privilege where parentId is null";
+		List<Map<String, Object>> mapList = qr.query(sql, new MapListHandler());
+		return toPrivilegeList(mapList);
+	}
+	
+	private List<Privilege> findChildren(Long id) throws SQLException {
+		String sql = "select * from itcast_privilege where parentId=?";
+		return qr.query(sql, new BeanListHandler<Privilege>(Privilege.class), id);
+	}
+	
 	
 }

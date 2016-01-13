@@ -58,5 +58,17 @@ public class PrivilegeService {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	/**
+	 * 查询顶级权限列表
+	 * @return
+	 */
+	public List<Privilege> findTopList() {
+		try {
+			return privilegeDao.findTopList();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 }
