@@ -22,7 +22,9 @@
             <ul style="display: none;" class="MenuLevel2">
             	<c:forEach items="${topPrivilege.children }" var="child">
                 <li class="level2">
-                    <div class="level2Style"><img src="${pageContext.request.contextPath }/style/images/MenuIcon/menu_arrow_single.gif"> ${child.name }</div>
+                    <div class="level2Style"><img src="${pageContext.request.contextPath }/style/images/MenuIcon/menu_arrow_single.gif">
+                    <a target="right" href="${pageContext.request.contextPath }${child.url }"> ${child.name }</a>
+                    </div>
                 </li>
                 </c:forEach>
             </ul>

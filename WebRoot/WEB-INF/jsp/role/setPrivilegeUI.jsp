@@ -101,11 +101,11 @@
                                 	for (int i = 0; i < privilegeList.size(); i++) {
                                 		if (privilegeNames.contains(privilegeList.get(i).getName())) {
                                 %>
-											<input id="<%=privilegeList.get(i).getId() %>" type="checkbox" name="privilegeIds" value="<%=privilegeList.get(i).getId() %>" checked="checked"> <label for="<%=privilegeList.get(i).getId() %>"> <%=privilegeList.get(i).getName() %></label>
+											<input id="<%=privilegeList.get(i).getId() %>" type="checkbox" name="privilegeIds" value="<%=privilegeList.get(i).getId() %>" checked="checked"> <label for="<%=privilegeList.get(i).getId() %>"> <%=privilegeList.get(i).getName() %></label><br>
                                 <%
                                 		} else {
                                 %>
-											<input id="<%=privilegeList.get(i).getId() %>" type="checkbox" name="privilegeIds" value="<%=privilegeList.get(i).getId() %>"> <label for="<%=privilegeList.get(i).getId() %>"> <%=privilegeList.get(i).getName() %></label>
+											<input id="<%=privilegeList.get(i).getId() %>" type="checkbox" name="privilegeIds" value="<%=privilegeList.get(i).getId() %>"> <label for="<%=privilegeList.get(i).getId() %>"> <%=privilegeList.get(i).getName() %></label><br>
                                 <%
                                 		}
                             		}
