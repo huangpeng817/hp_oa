@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="hp" uri="/WEB-INF/hp.tld" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
@@ -12,7 +12,11 @@
 <body style="margin: 0">
 <div id="Menu">
     <ul id="MenuUl">
+    	<c:set var="sessionUser" value="${user }"></c:set>
     	<c:forEach items="${topPrivilegeList }" var="topPrivilege">
+    	<%--
+    	<c:if test="${hp:hasPrivilegeByName(${user }, ${topPrivilege.name }) }">
+        --%>
         <li class="level1">
             <div onclick="menuClick(this)" class="level1Style"><img src="${pageContext.request.contextPath }/style/images/MenuIcon/${topPrivilege.id }.gif" class="Icon">${topPrivilege.name }</div>
             <ul style="display: none;" class="MenuLevel2">
@@ -23,6 +27,7 @@
                 </c:forEach>
             </ul>
         </li>
+        <%--</c:if>--%>
         </c:forEach>
     </ul>
 </div>
