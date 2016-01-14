@@ -14,4 +14,17 @@
     <function-class>cn.hp.oa.util.JudgePrivilegeUtils</function-class>
     <function-signature>boolean hasPrivilegeByName(cn.hp.oa.domain.User, java.lang.String)</function-signature>
   </function>
+
+  <!-- 判断数组中是否包含某个元素（页面中的二三级的判断无法使用） -->
+  <function>
+    <name>isContain</name>
+    <function-class>cn.hp.oa.util.JudgePrivilegeUtils</function-class>
+    <function-signature>boolean isContain(java.lang.Long[], java.lang.Long)</function-signature>
+  </function>
+
+  <function>
+    <name>contains</name>
+    <function-class>cn.hp.oa.util.JudgePrivilegeUtils</function-class>
+    <function-signature>boolean contains(java.util.List, java.lang.Long)</function-signature>
+  </function>
 </taglib>

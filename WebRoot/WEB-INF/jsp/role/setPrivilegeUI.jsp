@@ -1,6 +1,7 @@
 <%@page import="cn.hp.oa.domain.Privilege"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="hp" uri="/WEB-INF/hp.tld" %>
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -12,41 +13,28 @@
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath }/script/jquery_treeview/jquery.treeview.css">
 
 	<script type="text/javascript">
- 		// 选择所有
-    	function selectAll(checkedValue){
-    		$("input[type=checkbox][name=resourceIdList]").attr("checked", checkedValue);
-    	}
-    	
-    	function doChecked( liID, checkedValue ){
-			// 当前点击的checkbox元素所在的li元素
-    		var jLi = $("#" + liID);
-
-    		// 选中所有的直属下级。（children()方法是筛选下一级，find()是筛选所有后代）
-    		jLi.children("ul").find("input[type=checkbox]").attr("checked", checkedValue);
-    		
-    		// 选中或取消选中直属上级
-    		if( checkedValue ){ // checkedValue是boolean型，表示是否选中了当前复选框
-    			// 如果当前是选中，则选中所有的直属上级
-				jLi.parents("li").children("input[type=checkbox]").attr("checked", checkedValue);
-			}else{
-				// 如果当前是取消选中，并且同级中没有被选中的项，则也取消上级的选中状态
-				var jCheckedSibingCB = jLi.siblings("li").children("input[type=checkbox]:checked");
-				if(jCheckedSibingCB.size() == 0){
-					var jCheckboxInput = jLi.parent("ul").prev("label").prev("input[type=checkbox]");
-					jCheckboxInput.attr("checked", checkedValue);
-					
-					// 递归操作每一层直属上级
-					var jParentLi = jCheckboxInput.parent("li");
-					if(jParentLi.size() > 0){
-						doChecked(jParentLi.attr("id"), checkedValue);
-					}
+		$(document).ready(function() {
+			$("[name=privilegeIds]").click(function() {
+				/* 当选中或取消一个权限时，也同时选中或取消所有的下级权限 */
+				$(this).siblings("ul").find("input").attr("checked", this.checked);
+				/* 当选中一个权限时，也同时选中所有的直接上级权限 */
+				if (this.checked == true) {
+					$(this).parents("li").children("input").attr("checked", true);
 				}
-			}
-    	} 
-    	
-    	$(function(){
-    		$("#tree").treeview();
-    	});
+				
+				/* 当复选框的长度等于选中的复选框的长度，表明全选，设置全选复选框为选中状态，其他情况全选复选框不选中 */
+				var all = $(":checkbox[name=privilegeIds]").length;
+				var select = $(":checkbox[name=privilegeIds][checked=true]").length;
+				if (all == select) { // 
+					$("#cbSelectAll").attr("checked", true);
+				} else {
+					$("#cbSelectAll").attr("checked", false);
+				}
+			});
+			
+			/* 使用jquery.treeview.js插件将ul/li列表显示成属性结构 */
+			$("#tree").treeview();
+		});
     </script>
 </head>
 <body>
@@ -91,7 +79,7 @@
 						<tr class="TableDetail1">
 							<!-- 显示权限树 -->
 							<td>
-								<%
+								<%--<%
                                 	List<Privilege> privilegeList = (List<Privilege>) request.getAttribute("privilegeList");
                                 	List<Privilege> privileges = (List<Privilege>) request.getAttribute("privileges");
                                 	List<String> privilegeNames = new ArrayList<String>();
@@ -110,6 +98,43 @@
                                 		}
                             		}
                                 %>
+							--%>
+							
+								<%
+									List<Privilege> privileges = (List<Privilege>) request.getAttribute("privileges");
+									List<Long> idList = new ArrayList<Long>();
+									int i = 0;
+									for (Privilege priv : privileges) {
+										idList.add(priv.getId());
+										i++;
+									}
+									request.setAttribute("idList", idList);
+								%>
+								<ul id="tree">
+									<c:forEach items="${topPrivilegeList }" var="topPrivilege">
+										<li>
+											<input type="checkbox" name="privilegeIds" value="${topPrivilege.id }" id="cb_${topPrivilege.id}" <c:if test="${hp:contains(idList, topPrivilege.id) }">checked</c:if> >
+											<label for="cb_${topPrivilege.id}"><span class="folder">${topPrivilege.name }</span></label>
+											<ul>
+												<c:forEach items="${topPrivilege.children }" var="child">
+													<li>
+														<input type="checkbox" name="privilegeIds" value="${child.id }" id="cb_${child.id}"	<c:if test="${hp:contains(idList, child.id) }">checked</c:if> >
+														<label for="cb_${child.id}"><span class="folder">${child.name }</span></label>
+														<ul>
+															<c:forEach items="${child.children }" var="grandson">
+																<li>
+																	<input type="checkbox" name="privilegeIds" value="${grandson.id }" id="cb_${grandson.id}" <c:if test="${hp:contains(idList, grandson.id) }">checked</c:if> >
+																	<label for="cb_${grandson.id}"><span class="folder">${grandson.name }</span></label>
+																</li>
+															</c:forEach>
+														</ul>
+													</li>
+												</c:forEach>
+											</ul>
+										</li>
+									</c:forEach>
+								</ul>
+							
 							</td>
 						</tr>
 					</tbody>

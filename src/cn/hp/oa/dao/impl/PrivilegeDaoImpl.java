@@ -51,6 +51,10 @@ public class PrivilegeDaoImpl extends BaseDaoImpl<Privilege> implements Privileg
 			if (privilege != null) {
 				childrenList = findChildren(privilege.getId());
 				Set<Privilege> children = new HashSet<Privilege>(childrenList);
+				for (Privilege child : children) {
+					List<Privilege> grandsons = findChildren(child.getId());
+					child.setChildren(new HashSet<Privilege>(grandsons));
+				}
 				privilege.setChildren(children);
 			}
 		} catch (SQLException e) {

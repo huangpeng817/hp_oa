@@ -10,6 +10,5 @@
 </head>
 
 <body>
-right
 </body>
 </html>
