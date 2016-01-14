@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
@@ -191,6 +192,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 	@Override
 	public User findByLoginNameAndPassword(String loginName, String password) throws SQLException {
 		String sql = "select * from itcast_user where loginName=? and password=?";
-		return qr.query(sql, new BeanHandler<User>(User.class), loginName, password);
+		Map<String, Object> map = qr.query(sql, new MapHandler(), loginName, password);
+		return toUser(map);
 	}
 }
