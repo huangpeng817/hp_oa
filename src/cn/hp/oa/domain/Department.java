@@ -3,7 +3,7 @@ package cn.hp.oa.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Department {
+public class Department implements java.io.Serializable {
 
 	private Long id;
 	private String name;
