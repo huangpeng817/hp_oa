@@ -11,6 +11,26 @@ public class ForumManageService {
 
 	private ForumManageDao forumManageDao = new ForumManageDaoImpl();
 	
+	public void moveUp(Long id) {
+		try {
+			forumManageDao.moveUp(id);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	
+		
+	}
+	
+	public void moveDown(Long id) {
+		try {
+			forumManageDao.moveDown(id);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+		
+	}
+	
 	public List<Forum> findAll() {
 		try {
 			return forumManageDao.findAll();

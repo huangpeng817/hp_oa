@@ -6,6 +6,12 @@
 <html><head>
     <title>版块列表</title>
     <%@ include file="/WEB-INF/jsp/public/commons.jspf" %>
+    <style type="text/css">
+    	.disabled {
+    		color: grey;
+    		cursor: pointer;
+    	}
+    </style>
 </head>
 <body>
 
@@ -34,14 +40,28 @@
 		<!--显示数据列表-->
         <tbody id="TableData" class="dataContainer" datakey="forumList">
 		
-		<c:forEach items="${forumList }" var="forum">	
+		<c:forEach items="${forumList }" var="forum" varStatus="status">	
         <tr class="TableDetail1 demodata_record">
 				<td>${forum.name }&nbsp;</td>
 				<td>${forum.description }&nbsp;</td>
 				<td><a onclick="return delConfirm()" href="${pageContext.request.contextPath }/ForumManageServlet?method=delete&id=${forum.id }">删除</a>
 					<a href="${pageContext.request.contextPath }/ForumManageServlet?method=editUI&id=${forum.id }">修改</a>
-					<a href="#">上移</a>
-					<a href="#">下移</a>
+					<c:choose>
+						<c:when test="${status.first }">
+							<span class="disabled">上移</span>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath }/ForumManageServlet?method=moveUp&id=${forum.id }">上移</a>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${status.last }">
+							<span class="disabled">下移</span>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath }/ForumManageServlet?method=moveDown&id=${forum.id }">下移</a>
+						</c:otherwise>
+					</c:choose>
 				</td>
 		</tr>
 		</c:forEach>

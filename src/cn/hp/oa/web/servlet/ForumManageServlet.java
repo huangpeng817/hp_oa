@@ -61,5 +61,19 @@ public class ForumManageServlet extends BaseServlet {
 		forumManageService.update(forum);
 		return list(request, response);
 	}
+	
+	public String moveUp(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Long id = Long.parseLong(request.getParameter("id"));
+		forumManageService.moveUp(id);
+		return list(request, response);
+	}
+	
+	public String moveDown(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Long id = Long.parseLong(request.getParameter("id"));
+		forumManageService.moveDown(id);
+		return list(request, response);
+	}
 
 }
