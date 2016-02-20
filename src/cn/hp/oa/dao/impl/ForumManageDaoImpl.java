@@ -1,6 +1,7 @@
 package cn.hp.oa.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -14,6 +15,29 @@ import cn.hp.oa.domain.Forum;
 public class ForumManageDaoImpl extends BaseDaoImpl<Forum> implements
 		ForumManageDao {
 
+	/**
+	 * 由于新加了集合字段，重写update方法
+	 */
+	@Override
+	public void update(Forum entity) throws SQLException {
+//		String sql = "update itcast_forum set name=?,description=?,position=?,topicCount=?,articleCount=? where id=?";
+		String sql = "";
+		if (entity.getPosition() == 0) {
+			sql = "update itcast_forum set name=?,description=? where id=?";
+		} else {
+			sql = "update itcast_forum set name=?,description=?,position=? where id=?";
+		}
+		List<Object> params = new ArrayList<Object>();
+		params.add(entity.getName());
+		params.add(entity.getDescription());
+		if (entity.getPosition() != 0) {
+			params.add(entity.getPosition());
+		}
+		params.add(entity.getId());
+		qr.update(sql, params.toArray());
+		
+	}
+	
 	/**
 	 * 重写findAll，根据position字段升序排列
 	 */

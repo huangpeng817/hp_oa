@@ -1,11 +1,19 @@
 package cn.hp.oa.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Forum {
 
 	private Long id;
 	private String name;
 	private String description;
 	private int position;
+	
+	private Set<Topic> topics = new HashSet<Topic>(); // 该板块所包含的所有主题
+	private int topicCount; // 主题数
+	private int articleCount; // 文章数
+	private Topic lastTopic; // 最后发表的主题
 
 	public Long getId() {
 		return id;
@@ -43,6 +51,38 @@ public class Forum {
 	public String toString() {
 		return "Forum [id=" + id + ", name=" + name + ", description="
 				+ description + ", position=" + position + "]";
+	}
+
+	public Set<Topic> getTopics() {
+		return topics;
+	}
+
+	public void setTopics(Set<Topic> topics) {
+		this.topics = topics;
+	}
+
+	public int getTopicCount() {
+		return topicCount;
+	}
+
+	public void setTopicCount(int topicCount) {
+		this.topicCount = topicCount;
+	}
+
+	public int getArticleCount() {
+		return articleCount;
+	}
+
+	public void setArticleCount(int articleCount) {
+		this.articleCount = articleCount;
+	}
+
+	public Topic getLastTopic() {
+		return lastTopic;
+	}
+
+	public void setLastTopic(Topic lastTopic) {
+		this.lastTopic = lastTopic;
 	}
 	
 }
