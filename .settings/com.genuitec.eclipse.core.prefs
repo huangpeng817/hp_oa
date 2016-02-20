@@ -1,4 +1,4 @@
-#Tue Jan 12 09:47:27 CST 2016
+#Fri Feb 19 16:40:50 CST 2016
 eclipse.preferences.version=1
-validator.Checked=WebRoot/WEB-INF/jsp/department,WebRoot/WEB-INF/jsp/user/list.jsp,test/cn/hp/oa/dao/RoleDaoTest.java,WebRoot/WEB-INF/jsp/role/setPrivilegeUI.jsp,WebRoot/WEB-INF/jsp/role/list.jsp
+validator.Checked=WebRoot/WEB-INF/jsp/department,WebRoot/WEB-INF/jsp/user/list.jsp,test/cn/hp/oa/dao/RoleDaoTest.java,WebRoot/WEB-INF/jsp/role/setPrivilegeUI.jsp,WebRoot/WEB-INF/jsp/forumManage/list.jsp,WebRoot/WEB-INF/jsp/role/list.jsp
 validator.Unchecked=

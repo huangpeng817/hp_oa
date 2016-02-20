@@ -25,6 +25,11 @@
     <servlet-name>HomeServlet</servlet-name>
     <servlet-class>cn.hp.oa.web.servlet.HomeServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ForumManageServlet</servlet-name>
+    <servlet-class>cn.hp.oa.web.servlet.ForumManageServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>RoleServlet</servlet-name>
     <url-pattern>/RoleServlet</url-pattern>
@@ -40,6 +45,10 @@
   <servlet-mapping>
     <servlet-name>HomeServlet</servlet-name>
     <url-pattern>/HomeServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ForumManageServlet</servlet-name>
+    <url-pattern>/ForumManageServlet</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
