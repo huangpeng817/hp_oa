@@ -2,18 +2,46 @@ package cn.hp.oa.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import cn.hp.oa.base.BaseDaoImpl;
 import cn.hp.oa.dao.ForumManageDao;
 import cn.hp.oa.domain.Forum;
+import cn.hp.oa.domain.Topic;
+import cn.itcast.commons.CommonUtils;
 
 public class ForumManageDaoImpl extends BaseDaoImpl<Forum> implements
 		ForumManageDao {
+
+	/**
+	 * 重写getByid方法，关联集合字段topics的内容
+	 */
+	@Override
+	public Forum getById(Long id) throws SQLException {
+		String sql = "select * from itcast_forum where id=?";
+		Map<String, Object> map = qr.query(sql, new MapHandler(), id);
+		return toForum(map);
+	}
+	
+	private Forum toForum(Map<String, Object> map) throws SQLException {
+		Forum forum = CommonUtils.toBean(map, Forum.class);
+		if (forum != null) {
+//			forum.setTopics(topics);
+			String sql = "select * from itcast_topic where forumId=?";
+			List<Topic> topicList = qr.query(sql, new BeanListHandler<Topic>(Topic.class), forum.getId());
+			Set<Topic> topics = new HashSet<Topic>(topicList);
+			forum.setTopics(topics);
+		}
+		return forum;
+	}
 
 	/**
 	 * 由于新加了集合字段，重写update方法

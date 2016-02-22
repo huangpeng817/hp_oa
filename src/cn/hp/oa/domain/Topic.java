@@ -6,6 +6,13 @@ import java.util.Set;
 
 public class Topic extends Article {
 
+	// 普通帖
+	public static final int TYPE_NORMAL = 0;
+	// 精华帖
+	public static final int TYPE_BEST = 1;
+	// 置顶帖
+	public static final int TYPE_TOP = 2;
+	
 	private Forum forum; // 该主题属于的板块
 	private Set<Reply> replies = new HashSet<Reply>(); // 该主题所包含的所有回复
 	private int type; // 主题类型
