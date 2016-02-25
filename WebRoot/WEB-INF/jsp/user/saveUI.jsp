@@ -84,11 +84,13 @@
                                 	List<Role> roleList = (List<Role>) request.getAttribute("roleList");
                                 	List<Role> roles = (List<Role>) request.getAttribute("roles");
                                 	List<String> roleNames = new ArrayList<String>();
-                                	for (Role role : roles) {
-                                		roleNames.add(role.getName());
+                                	if (roles != null) {
+	                                	for (Role role : roles) {
+	                                		roleNames.add(role.getName());
+	                                	}
                                 	}
                                 	for (int i = 0; i < roleList.size(); i++) {
-                                		if (roleNames.contains(roleList.get(i).getName())) {
+                                		if (roleNames != null && roleNames.contains(roleList.get(i).getName())) {
                                 %>
                                 			<option value="<%=roleList.get(i).getId() %>" selected="selected"><%=roleList.get(i).getName() %></option>
                                 <%
